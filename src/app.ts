@@ -2,9 +2,12 @@ import express, { Application, Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import routes from './routes';
 import logger from './logger';
+import initializeRedisClient from './middleware/cacheMiddleware';
 
-const createApp = () => {
+const createApp = async () => {
   const app: Application = express();
+
+  console.log('Loaded environment variables:', process.env);
 
   const getCorsAllowedOrigins = () => {
     if (process.env.CLIENT_ALLOWED_ORIGINS) {
@@ -38,6 +41,8 @@ const createApp = () => {
     }
     next(err);
   });
+
+  await initializeRedisClient();
 
   // TODO add db...mongoose
   // if (!AppDataSource.isInitialized) {

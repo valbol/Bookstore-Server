@@ -1,11 +1,22 @@
 import createApp from './app';
-//TODO: add ==> import './envVars';
-import log from './logger';
+import dotenv from 'dotenv';
+import logger from './logger';
 
-const app = createApp();
-const port = Number(process.env.PORT) || 3000;
+const initializeServer = async () => {
+  dotenv.config();
+  const app = await createApp();
+  const port = Number(process.env.SERVER_PORT) || 3000;
 
-app.listen(port, () => {
-  log.info(`App is running in port ${port} in ${app.get('env')} mode`);
-  log.info('Press CTRL-C to stop');
-});
+  app.listen(port, () => {
+    logger.info(`App is running on port ${port} in ${app.get('env')} mode`);
+    logger.info('Press CTRL-C to stop');
+  });
+};
+
+initializeServer()
+  .then(() => {
+    logger.info('server initialized successfully');
+  })
+  .catch((error) => {
+    logger.error(`server initialization error: ${error}`);
+  });

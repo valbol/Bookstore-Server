@@ -1,3 +1,3 @@
-const log = require('pino')({ level: process.env.LOG_LEVEL || 'info' });
+const logger = require('pino')({ level: process.env.LOG_LEVEL || 'info' });
 
-export default log;
+export default logger;
