@@ -5,8 +5,8 @@
   "main": "server.js",
   "scripts": {
     "dev": "nodemon src/server.ts",
-    "start": "node dist/server.js",
-    "build": "npx prettier . --write && tsc",
+    "start": "npm run build && node dist/server.js",
+    "build": "npm run pretty && tsc",
     "pretty": "npx prettier . --write",
     "lint": "eslint \"src/**/*\""
   },
