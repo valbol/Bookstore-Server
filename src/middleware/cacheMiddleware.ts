@@ -58,14 +58,12 @@ const readDataFromCache = async (key: string) => {
 };
 
 export const createRequestKey = (req: Request) => {
-  const { query, baseUrl, path } = req;
+  const { baseUrl, path } = req;
   const requestToHash = {
     path,
-    query,
-    baseUrl,
   };
 
-  return `${baseUrl}${path}@${hash(requestToHash)}`;
+  return `${baseUrl}@${hash(requestToHash)}`;
 };
 
 export const cacheMiddleware = async (req: Request, res: Response, next: NextFunction) => {
@@ -93,6 +91,13 @@ export const cacheMiddleware = async (req: Request, res: Response, next: NextFun
     // No caching if Redis is not working
     next();
   }
+};
+
+export const clearCacheByKey = async (req: Request, res: Response, next: NextFunction) => {
+  const key = createRequestKey(req);
+  await redisClient.del(key);
+
+  next();
 };
 
 export default initializeRedisClient;

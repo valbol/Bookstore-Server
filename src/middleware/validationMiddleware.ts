@@ -1,10 +1,17 @@
 import { Request, Response, NextFunction } from 'express';
 import Joi from 'joi';
+import { Genre } from '../types/book';
 
 const bookSchema = Joi.object({
-  bookName: Joi.string().required(),
-  bookHeader: Joi.string().required(),
-  publishYear: Joi.number().integer().min(1000).max(new Date().getFullYear()).required(),
+  title: Joi.string().required(),
+  idNumber: Joi.number().required(),
+  description: Joi.string().required(),
+  author: Joi.string().required(),
+  publicationDate: Joi.date().required(),
+  genre: Joi.string()
+    .valid(Genre.ScienceFiction, Genre.Satire, Genre.Drama, Genre.Action, Genre.Romance, Genre.Mystery, Genre.Horror)
+    .required(),
+  price: Joi.number().positive().required(),
 });
 
 export const validateBookInput = (req: Request, res: Response, next: NextFunction) => {
