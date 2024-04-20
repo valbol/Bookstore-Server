@@ -1,12 +1,15 @@
 import express, { Application, Request, Response, NextFunction } from 'express';
 import cors from 'cors';
+import mongoDb from './db';
 import routes from './routes';
 import logger from './logger';
 import initializeRedisClient from './middleware/cacheMiddleware';
+import logErrorMiddleware from './middleware/logErrorsMiddleware';
 
 const createApp = async () => {
   const app: Application = express();
 
+  // TODO: delete all console.log statements
   console.log('Loaded environment variables:', process.env);
 
   const getCorsAllowedOrigins = () => {
@@ -27,31 +30,9 @@ const createApp = async () => {
   app.use(express.urlencoded({ limit: '5mb', extended: true }));
 
   // Middleware for logging errors
-  app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-    if (err) {
-      const { message, stack } = err;
-      const { ip, headers, method } = req;
-      logger.error({
-        message,
-        stack,
-        ip,
-        headers,
-        method,
-      });
-    }
-    next(err);
-  });
-
+  app.use(logErrorMiddleware);
+  await mongoDb();
   await initializeRedisClient();
-
-  // TODO add db...mongoose
-  // if (!AppDataSource.isInitialized) {
-  //   AppDataSource.initialize()
-  //     .then(() => {
-  //       logger.info(`DB connection initialized on port:${Number(process.env.DB_PORT) || 3306}`);
-  //     })
-  //     .catch((error: Error) => sendError(`DB connection initialization error: ${error}`));
-  // }
 
   routes(app);
 
