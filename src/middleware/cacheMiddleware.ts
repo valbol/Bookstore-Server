@@ -58,36 +58,32 @@ const readDataFromCache = async (key: string) => {
 };
 
 export const createRequestKey = (req: Request) => {
-  const { query, path } = req;
+  const { query, baseUrl,path } = req;
   const requestToHash = {
-    query,
     path,
+    query,
+    baseUrl,
   };
 
-  return `${req.path}@${hash(requestToHash)}`;
+  return `${baseUrl}${path}@${hash(requestToHash)}`;
 };
 
 
-export const cacheMiddleware = () => async (req: Request, res: Response, next: NextFunction) => {
+export const cacheMiddleware = async (req: Request, res: Response, next: NextFunction) => {
+
   if (isRedisWorking()) {
     const key = createRequestKey(req);
-    // Check if there is cached data
     const cachedValue = await readDataFromCache(key);
     if (cachedValue) {
       try {
-        // If cached data is JSON, return it
         return res.json(JSON.parse(cachedValue));
       } catch {
-        // If not JSON, return it
         return res.send(cachedValue);
       }
     } else {
-      // Override res.send to introduce caching logic
       const oldSend = res.send;
       res.send = (data: any) => {
-        // Restore original send function to avoid double-send
         res.send = oldSend;
-        // Cache the response only if it is successful
         if (res.statusCode.toString().startsWith('2')) {
           writeDataToCache(key, data).then();
         }
@@ -100,5 +96,6 @@ export const cacheMiddleware = () => async (req: Request, res: Response, next: N
     next();
   }
 };
+
 
 export default initializeRedisClient;

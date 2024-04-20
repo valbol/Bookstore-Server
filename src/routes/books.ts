@@ -1,19 +1,19 @@
 import express, { Request, Response } from 'express';
-import Joi from 'joi';
 import { validateBookInput } from '../middleware/validationMiddleware';
+import { cacheMiddleware } from '../middleware/cacheMiddleware';
 
 const router = express.Router();
 
-router.get('/', (req: Request, res: Response) => {
+router.get('/', cacheMiddleware, (req: Request, res: Response) => {
   res.send('books route works!');
 });
 
-router.get('/:id', (req: Request, res: Response) => {
-  res.send({'books route works!': req.params.id});
+router.get('/:id', cacheMiddleware, (req: Request, res: Response) => {
+  console.log('Inside route handler');
+  res.send({ 'books route works!': req.params.id });
 });
 
-
-router.post('/',validateBookInput, (req: Request, res: Response) => {
+router.post('/', validateBookInput, (req: Request, res: Response) => {
   const newBook = req.body;
 
   // TODO: logic to add book to database
