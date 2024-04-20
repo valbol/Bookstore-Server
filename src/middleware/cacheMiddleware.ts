@@ -58,7 +58,7 @@ const readDataFromCache = async (key: string) => {
 };
 
 export const createRequestKey = (req: Request) => {
-  const { query, baseUrl,path } = req;
+  const { query, baseUrl, path } = req;
   const requestToHash = {
     path,
     query,
@@ -68,9 +68,7 @@ export const createRequestKey = (req: Request) => {
   return `${baseUrl}${path}@${hash(requestToHash)}`;
 };
 
-
 export const cacheMiddleware = async (req: Request, res: Response, next: NextFunction) => {
-
   if (isRedisWorking()) {
     const key = createRequestKey(req);
     const cachedValue = await readDataFromCache(key);
@@ -96,6 +94,5 @@ export const cacheMiddleware = async (req: Request, res: Response, next: NextFun
     next();
   }
 };
-
 
 export default initializeRedisClient;
