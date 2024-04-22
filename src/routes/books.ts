@@ -54,7 +54,7 @@ router.delete('/:id', clearCacheByKey, async (req: Request, res: Response) => {
 
     const result = await bookService.deleteBook(id);
     if (!result) {
-      res.status(404).send({ success: false, error: 'Book not found' });
+      res.status(404).send({ success: false, error: new Error('Book not found') });
       return;
     }
 
