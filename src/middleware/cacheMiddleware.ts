@@ -58,9 +58,9 @@ const readDataFromCache = async (key: string) => {
 };
 
 export const createRequestKey = (req: Request) => {
-  const { baseUrl, path } = req;
+  const { baseUrl } = req;
   const requestToHash = {
-    path,
+    baseUrl,
   };
 
   return `${baseUrl}@${hash(requestToHash)}`;

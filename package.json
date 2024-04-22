@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon src/server.ts",
     "start": "npm run build && node dist/server.js",
-    "build": "npm run pretty && tsc",
+    "build": "tsc",
     "pretty": "npx prettier . --write",
     "lint": "eslint \"src/**/*\""
   },

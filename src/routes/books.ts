@@ -51,7 +51,6 @@ router.post('/', validateBookInput, clearCacheByKey, async (req: Request, res: R
 router.delete('/:id', clearCacheByKey, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-
     const result = await bookService.deleteBook(id);
     if (!result) {
       res.status(404).send({ success: false, error: new Error('Book not found') });
