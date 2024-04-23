@@ -40,11 +40,10 @@ router.get('/:id', cacheMiddleware, async (req: Request, res: Response) => {
 router.post('/', validateBookInput, clearCacheByKey, async (req: Request, res: Response) => {
   try {
     const newBook = req.body;
-    await bookService.addBook(newBook);
-
+    const resp = await bookService.addBook(newBook);
     res.status(201).json({ success: true, message: 'Book added successfully', data: newBook });
   } catch (error) {
-    res.status(500).send({ success: false, error: (error as Error).message });
+    res.status(500).send({ success: false, error });
   }
 });
 

@@ -1,7 +1,7 @@
 import { Document } from 'mongoose';
 
 export enum Genre {
-  ScienceFiction = 'ScienceFiction',
+  ScienceFiction = 'Science Fiction',
   Satire = 'Satire',
   Drama = 'Drama',
   Action = 'Action',

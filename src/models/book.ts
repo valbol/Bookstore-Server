@@ -6,8 +6,8 @@ const BookSchema = new Schema({
   idNumber: { type: String, unique: true, required: true },
   description: { type: String, required: true },
   author: { type: String, required: true },
-  publicationData: { type: Date, required: true },
-  genre: { type: String, enum: Genre, required: true },
+  publicationDate: { type: Date, required: true },
+  genre: { type: String, enum: Object.values(Genre), required: true },
   price: { type: Number, required: true },
 });
 
