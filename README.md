@@ -19,8 +19,11 @@ Ensure that you have created a .env file in the root directory of the project an
 Redis Caching: The application utilizes Redis for caching.
 If Redis is not installed locally on your machine, the server will try once an failover - caching functionality will be disabled.
 
-## Dependencies
+**TEST
+to run the test. mongo should be locally installed - `brew services start mongodb-community`
 
+
+## Dependencies
 "cors": "^2.8.5"
 "dotenv": "^16.4.5"
 "express": "^4.19.2"
