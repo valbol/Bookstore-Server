@@ -3,7 +3,7 @@ import { IBook, Genre } from '../types/book';
 
 const BookSchema = new Schema({
   title: { type: String, required: true },
-  idNumber: { type: String, unique: true, required: true },
+  idNumber: { type: Number, unique: true, required: true },
   description: { type: String, required: true },
   author: { type: String, required: true },
   publicationDate: { type: Date, required: true },

@@ -24,7 +24,7 @@ router.get('/:id', cacheMiddleware, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
-    const result = await bookService.getBook(id);
+    const result = await bookService.getBook(Number(id));
 
     if (!result) {
       res.status(404).send({ success: false, error: 'Book not found' });
@@ -50,7 +50,7 @@ router.post('/', validateBookInput, clearCacheByKey, async (req: Request, res: R
 router.delete('/:id', clearCacheByKey, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const result = await bookService.deleteBook(id);
+    const result = await bookService.deleteBook(Number(id));
     if (!result) {
       res.status(404).send({ success: false, error: new Error('Book not found') });
       return;
