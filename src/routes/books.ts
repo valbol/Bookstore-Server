@@ -10,13 +10,13 @@ router.get('/', cacheMiddleware, async (req: Request, res: Response) => {
     const result = await bookService.getAllBooks();
 
     if (!result) {
-      res.status(404).send({ success: false, error: 'Book not found' });
+      res.status(404).json({ success: false, error: 'Book not found' });
       return;
     }
 
-    res.send({ success: true, data: result });
+    res.json({ success: true, data: result });
   } catch (error) {
-    res.status(500).send({ success: false, error: (error as Error).message });
+    res.status(500).json({ success: false, error: (error as Error).message });
   }
 });
 
@@ -27,13 +27,13 @@ router.get('/:id', cacheMiddleware, async (req: Request, res: Response) => {
     const result = await bookService.getBook(Number(id));
 
     if (!result) {
-      res.status(404).send({ success: false, error: 'Book not found' });
+      res.status(404).json({ success: false, error: 'Book not found' });
       return;
     }
 
-    res.send({ success: true, data: result });
+    res.json({ success: true, data: result });
   } catch (error) {
-    res.status(500).send({ success: false, error: (error as Error).message });
+    res.status(500).json({ success: false, error: (error as Error).message });
   }
 });
 
@@ -43,7 +43,7 @@ router.post('/', validateBookInput, clearCacheByKey, async (req: Request, res: R
     const resp = await bookService.addBook(newBook);
     res.status(201).json({ success: true, message: 'Book added successfully', data: newBook });
   } catch (error) {
-    res.status(500).send({ success: false, error });
+    res.status(500).json({ success: false, error });
   }
 });
 
@@ -52,13 +52,13 @@ router.delete('/:id', clearCacheByKey, async (req: Request, res: Response) => {
     const { id } = req.params;
     const result = await bookService.deleteBook(Number(id));
     if (!result) {
-      res.status(404).send({ success: false, error: new Error('Book not found') });
+      res.status(404).json({ success: false, error: new Error('Book not found') });
       return;
     }
 
-    res.send({ success: true, data: result });
+    res.json({ success: true, data: result });
   } catch (error) {
-    res.status(500).send({ success: false, error: (error as Error).message });
+    res.status(500).json({ success: false, error: (error as Error).message });
   }
 });
 
