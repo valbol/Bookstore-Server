@@ -6,7 +6,7 @@ This project is a backend application built with Express.js, providing functiona
 
 Clone the repository to your local machine.
 Install dependencies using npm install.
-Create a .env file in the root directory of the project and add the required environment variables. See the .env.example file for a list of required variables and their descriptions.
+You don't need to create .env file - note: created it and uploaded the keys (it is for the example of use)
 Start the server:
 `npm start`
 
@@ -14,10 +14,15 @@ Alternatively, you can run the server in development mode using:
 `npm run dev`
 
 **Important Notes**
+
 Environment Variables: This project uses environment variables for configuration.
-Ensure that you have created a .env file in the root directory of the project and populated it with the required variables.
+Ensure that you have a .env file in the root directory of the project and populated it with the required variables.
 Redis Caching: The application utilizes Redis for caching.
-If Redis is not installed locally on your machine, the server will try once an failover - caching functionality will be disabled.
+If Redis is not installed locally on your machine, the server will try once and failover - caching functionality will be disabled.
+
+## Testing
+
+to run the test. mongo should be locally installed - `brew services start mongodb-community`
 
 ## Dependencies
 
