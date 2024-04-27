@@ -13,7 +13,7 @@ const initializeRedisClient = async () => {
     url: redisURL,
     socket: {
       reconnectStrategy: function (retries) {
-        if (retries > 3) {
+        if (retries > 1) {
           logger.error('Too many attempts to reconnect. Redis connection was terminated');
           return new Error('Redis locally NOT CONNECTED');
         } else {
